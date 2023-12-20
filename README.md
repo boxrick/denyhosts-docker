@@ -12,7 +12,7 @@ docker run -d \
 	--restart=always \
 	-v /var/log/auth.log:/var/log/auth.log:ro \
 	-v /etc/hosts.deny:/etc/hosts.deny \
-	boxrick/denyhosts
+	boxrick/denyhosts-docker
 ```
 
 ### CentOS
@@ -23,7 +23,7 @@ docker run -d \
 	--restart=always \
 	-v /var/log/secure:/var/log/secure:ro \
 	-v /etc/hosts.deny:/etc/hosts.deny \
-	boxrick/denyhosts
+	boxrick/denyhosts-docker
 ```
 
 ### Using your own config file
@@ -37,7 +37,7 @@ docker run -d \
 	-v /var/log/secure:/var/log/secure:ro \
 	-v /etc/hosts.deny:/etc/hosts.deny \
 	-v /your/location/denyhosts.conf:/etc/denyhosts.conf \
-	boxrick/denyhosts
+	boxrick/denyhosts-docker
 ```
 
 ## docker-compose

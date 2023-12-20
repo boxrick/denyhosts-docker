@@ -4,7 +4,7 @@ services:
   denyhosts:
     container_name: denyhosts
     restart: unless-stopped
-    image: "boxrick/denyhosts:latest"
+    image: "boxrick/denyhosts-docker:latest"
     volumes:
       - /var/log/auth:/var/log/auth:ro
       - /etc/hosts.deny:/etc/hosts.deny
