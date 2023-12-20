@@ -1,0 +1,12 @@
+---
+version: "3.3"
+services:
+  denyhosts:
+    container_name: denyhosts
+    restart: unless-stopped
+    image: "boxrick/denyhosts:latest"
+    volumes:
+      - /var/log/auth:/var/log/auth:ro
+      - /etc/hosts.deny:/etc/hosts.deny
+      - /etc/hosts.allow:/etc/hosts.allow
+      #- /etc/denyhosts.conf:/etc/denyhosts.conf
