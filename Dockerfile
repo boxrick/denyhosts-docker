@@ -160,6 +160,7 @@ CMD ["python2"]
 ## No longer use upstream, instead build our own python in a modern alpine image
 FROM python27-alpine
 
+
 LABEL denyhosts_version="3.1" architecture="amd64"
 
 RUN apk add --no-cache git  \
