@@ -2,7 +2,6 @@
 version: "3.3"
 services:
   denyhosts:
-    platform: linux/amd64
     container_name: denyhosts
     restart: unless-stopped
     image: "boxrick/denyhosts-docker:latest"

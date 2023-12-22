@@ -68,30 +68,3 @@ jobs:
           platforms: linux/amd64
           labels: ${{ steps.meta.outputs.labels }}
           tags: boxrick/denyhosts-docker:latest
-
-  macos-latest:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-
-      - name: Login to dockerhub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: boxrick/denyhosts-docker
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          platforms: linux/arm64
-          labels: ${{ steps.meta.outputs.labels }}
-          tags: boxrick/denyhosts-docker:latest
