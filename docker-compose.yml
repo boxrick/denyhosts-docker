@@ -9,4 +9,4 @@ services:
       - /var/log/auth.log:/var/log/auth.log:ro
       - /etc/hosts.deny:/etc/hosts.deny
       - /etc/hosts.allow:/etc/hosts.allow
-      #- /etc/denyhosts.conf:/etc/denyhosts.conf
+      - /etc/denyhosts.conf:/etc/denyhosts.conf
