@@ -5,6 +5,9 @@ name: build-docker
 on:
   push:
     branches: main
+  # Buld new version daily
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build-and-push:
@@ -39,3 +42,11 @@ jobs:
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           tags: boxrick/denyhosts-docker:latest
+
+      - name: Sync readme from Github to Dockerhub
+        uses: ms-jpq/sync-dockerhub-readme@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: boxrick/denyhosts-docker
+          readme: "./README.md"
