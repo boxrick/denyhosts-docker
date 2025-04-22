@@ -8,27 +8,24 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: macos-14 # GitHub-hosted Apple Silicon runner
+    runs-on: macos-14
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Install Docker Desktop via Homebrew
+      - name: Install Colima and Docker CLI
         run: |
-          brew install --cask docker
+          brew install colima
+          brew install docker
 
-      - name: Start Docker Desktop
+      - name: Start Colima (Docker daemon)
         run: |
-          open -a Docker
-          echo "Waiting for Docker to start..."
-          for i in {1..30}; do
-            if [ -S /var/run/docker.sock ]; then
-              echo "Docker is up!"
-              break
-            fi
-            sleep 2
-          done
+          # detect maximum CPU cores and memory in GiB
+          CPU=$(sysctl -n hw.ncpu)
+          MEM=$(($(sysctl -n hw.memsize) / 1024 / 1024 / 1024))
+          echo "Starting Colima with $CPU CPU(s) and ${MEM}G memory"
+          colima start --cpu "$CPU" --memory "${MEM}"
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v2
