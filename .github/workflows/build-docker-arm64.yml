@@ -1,0 +1,50 @@
+---
+name: build-docker-arm64
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on:
+      - macos-14
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Install Docker CLI via Homebrew
+        run: |
+          brew install docker
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: boxrick/denyhosts-docker
+
+      - name: Build and push (ARM64)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          platforms: linux/arm64
+          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            boxrick/denyhosts-docker:latest
+
+      - name: Sync README to Docker Hub
+        uses: ms-jpq/sync-dockerhub-readme@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: boxrick/denyhosts-docker
+          readme: "./README.md"
