@@ -14,20 +14,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Install Colima and Docker CLI
-        run: |
-          brew install colima
-          brew install docker
-
-      - name: Start Colima (Docker daemon)
-        run: |
-          # detect maximum CPU cores and memory in GiB
-          CPU=$(sysctl -n hw.ncpu)
-          MEM=$(($(sysctl -n hw.memsize) / 1024 / 1024 / 1024))
-          echo "Starting Colima with $CPU CPU(s) and ${MEM}G memory"
-          colima start --cpu "$CPU" --memory "${MEM}"
-
-      - name: Set up Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Log in to Docker Hub
@@ -48,7 +35,7 @@ jobs:
           context: .
           push: true
           platforms: linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
+          builder: ${{ steps.buildx.outputs.name }} # use the Buildx instance
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
             boxrick/denyhosts-docker:latest
